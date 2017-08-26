@@ -1,0 +1,12 @@
+[package]
+name = "dwmstatus"
+version = "0.1.0"
+authors = ["ahli"]
+
+[dependencies]
+time = "0.1.38"
+x11-dl = "2.15.0"
+
+[dependencies.x11]
+version = "2.15.0"
+features = ["xlib"]
