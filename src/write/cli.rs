@@ -14,7 +14,7 @@ impl<'l> Cli<'l> {
 
 impl<'l> super::WriteStatus for Cli<'l> {
     fn write_status(&mut self, status: &str) {
-        self.writer.write(&[b'\r']).unwrap();
-        self.writer.write(status.as_bytes()).unwrap();
+        self.writer.write(&[b'\r']);
+        self.writer.write(status.as_bytes());
     }
 }
