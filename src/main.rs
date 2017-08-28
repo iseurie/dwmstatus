@@ -11,8 +11,6 @@ use std::time::Duration;
 static DELIMITER_STAT: &'static str = " |";
 
 fn main() {
-    let _power: Power;
-    let _time: Time;
     let stats: [&Status; 2] = [ &Power, &Time ];
     
     let stdout = ::std::io::stdout();
@@ -25,13 +23,13 @@ fn main() {
         writer = &mut cli_writer;
     }
     loop {
-        let status = fmt_status(&stats);
+        let status = status_line(&stats);
         writer.write_status(&status);
         ::std::thread::sleep(Duration::from_millis(1000));
     }
 }
 
-fn fmt_status(stats: &[&Status]) -> String {
+fn status_line(stats: &[&Status]) -> String {
     let mut ret = String::new();
     let mut iter_stat = stats.iter();
     let first = iter_stat.next().unwrap();
