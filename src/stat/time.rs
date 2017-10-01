@@ -13,7 +13,7 @@ impl super::Status for Time {
         }
         format!("{:03}{:02}::{:02}/{:02}/{:02}::{:02}:{:02}:{:02}",
                 offset.num_hours() - 1, offset.num_minutes() % 60,
-                abbv_year, now.tm_mon, now.tm_mday,
+                abbv_year, now.tm_mon + 1, now.tm_mday,
                 now.tm_hour, now.tm_min, now.tm_sec
         )
     }
