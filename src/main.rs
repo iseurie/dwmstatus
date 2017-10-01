@@ -6,7 +6,7 @@ mod write;
 
 use stat::{Time, Power, Status};
 use write::WriteStatus;
-use std::time::Duration;
+use std::time::{Instant, Duration};
 
 static DELIMITER_STAT: &'static str = " |";
 
@@ -23,9 +23,13 @@ fn main() {
         writer = &mut cli_writer;
     }
     loop {
+        let start = Instant::now();
         let status = status_line(&stats);
         writer.write_status(&status);
-        ::std::thread::sleep(Duration::from_millis(1000));
+        let sleep = Duration::from_millis(1000).checked_sub(start.elapsed());
+        if sleep.is_some() {
+            ::std::thread::sleep(sleep.unwrap());
+        }
     }
 }
 
