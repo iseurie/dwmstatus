@@ -26,7 +26,7 @@ fn main() {
         let start = Instant::now();
         let status = status_line(&stats);
         writer.write_status(&status);
-        let base_sleep = Duration::from_millis(BASE_SLEEP_MS);
+        let base_sleep = Duration::from_millis(BASE_SLEEP_MS as u64);
         ::std::thread::sleep(
                 if let Some(sleep) = base_sleep.checked_sub(start.elapsed()) {
                     sleep
