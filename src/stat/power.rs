@@ -33,10 +33,13 @@ impl super::Status for Power {
             "D" => {
                 let charge: usize = read_bat_prop("charge_now", &mut buf);
                 let consumption: usize = read_bat_prop("current_now", &mut buf);
-                let secs = charge as f64 / consumption as f64 * 3600f64;
+                // (Ah) / (A) = h;
+                let mut hrs = charge as f64 / consumption as f64;
+                let min = (hrs * 60f64) as u16 % 60;
+                if min != 0 { hrs -= 1f64 };
                 ret + &(String::from("; ")
-                    + &(secs as u16 / 3600).to_string()
-                    + ":" + &(format!("{:02}", (secs / 60f64) as u16 % 60))
+                    + &((hrs as u16).to_string())
+                    + ":" + &(format!("{:02}", min))
                 )
             },
             _ => ret
