@@ -8,8 +8,8 @@ use stat::{Time, Power, Status};
 use write::WriteStatus;
 use std::time::{Instant, Duration};
 
-static DELIMITER_STAT: &'static str = " |";
-
+const DELIMITER_STAT: &'static str = " |";
+const BASE_SLEEP_MS: u16 = 1000;
 fn main() {
     let stats: [&Status; 2] = [ &Power, &Time ];
     
@@ -26,10 +26,14 @@ fn main() {
         let start = Instant::now();
         let status = status_line(&stats);
         writer.write_status(&status);
-        let sleep = Duration::from_millis(1000).checked_sub(start.elapsed());
-        if sleep.is_some() {
-            ::std::thread::sleep(sleep.unwrap());
-        }
+        let base_sleep = Duration::from_millis(BASE_SLEEP_MS);
+        ::std::thread::sleep(
+                if let Some(sleep) = base_sleep.checked_sub(start.elapsed()) {
+                    sleep
+                } else {
+                    base_sleep
+                }
+        );
     }
 }
 
